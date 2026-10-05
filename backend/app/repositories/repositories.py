@@ -88,13 +88,23 @@ class LeadRepository:
 
     @staticmethod
     def create_lead(db: Session, lead_in: LeadCreate) -> Lead:
-        event_name = lead_in.event_name
-        if lead_in.event_id:
-            event = db.query(Event).filter(Event.id == lead_in.event_id).first()
+        lead_data = lead_in.model_dump()
+        
+        # Clean empty string fields to None
+        if not lead_data.get("event_id"):
+            lead_data["event_id"] = None
+        if not lead_data.get("event_name"):
+            lead_data["event_name"] = None
+
+        event_name = lead_data.get("event_name")
+        if lead_data.get("event_id"):
+            event = db.query(Event).filter(Event.id == lead_data["event_id"]).first()
             if event:
                 event_name = event.name
+                lead_data["event_id"] = event.id
+            else:
+                lead_data["event_id"] = None
 
-        lead_data = lead_in.model_dump()
         lead_data["event_name"] = event_name
         lead = Lead(**lead_data)
         db.add(lead)
@@ -116,10 +126,16 @@ class LeadRepository:
     @staticmethod
     def update_lead(db: Session, lead: Lead, lead_in: LeadUpdate) -> Lead:
         update_data = lead_in.model_dump(exclude_unset=True)
-        if "event_id" in update_data and update_data["event_id"]:
-            event = db.query(Event).filter(Event.id == update_data["event_id"]).first()
-            if event:
-                update_data["event_name"] = event.name
+        if "event_id" in update_data:
+            if not update_data["event_id"]:
+                update_data["event_id"] = None
+                update_data["event_name"] = None
+            else:
+                event = db.query(Event).filter(Event.id == update_data["event_id"]).first()
+                if event:
+                    update_data["event_name"] = event.name
+                else:
+                    update_data["event_id"] = None
 
         for key, value in update_data.items():
             setattr(lead, key, value)

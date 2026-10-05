@@ -180,9 +180,17 @@ export default function LeadsPage() {
 
     try {
       setSubmitting(true);
+      const payload = {
+        ...formData,
+        event_id: formData.event_id?.trim() || null,
+        phone: formData.phone?.trim() || null,
+        linkedin_url: formData.linkedin_url?.trim() || null,
+        job_title: formData.job_title?.trim() || null,
+        notes: formData.notes?.trim() || null,
+      };
       await fetchApi("/leads", {
         method: "POST",
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
       setShowModal(false);
       setDuplicateWarning(null);
