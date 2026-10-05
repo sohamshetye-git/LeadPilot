@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "EventLead AI API"
+    PROJECT_NAME: str = "LeadPilot API"
     API_V1_STR: str = "/api"
     
     # Database - defaults to SQLite for immediate zero-config local run, seamlessly accepts PostgreSQL DATABASE_URL

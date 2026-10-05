@@ -54,7 +54,7 @@ export default function AnalyticsPage() {
           Event Performance Analytics
         </h1>
         <p className="text-xs text-zinc-500 mt-1">
-          Objective conversion data, qualified opportunities, and event ROI comparison.
+          Objective conversion data, qualified opportunities, and event performance metrics.
         </p>
       </div>
 
