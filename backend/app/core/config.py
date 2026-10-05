@@ -13,8 +13,17 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: Optional[str] = None
     GEMINI_MODEL: str = "gemini-2.5-flash"
     
-    # CORS
+    # CORS: Accepts comma-separated list in CORS_ORIGINS or list of strings
+    CORS_ORIGINS: Optional[str] = None
     BACKEND_CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+
+    @property
+    def cors_origins(self) -> list[str]:
+        origins = list(self.BACKEND_CORS_ORIGINS)
+        if self.CORS_ORIGINS:
+            custom_origins = [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]
+            origins.extend(custom_origins)
+        return list(set(origins))
 
     model_config = {
         "env_file": ".env",

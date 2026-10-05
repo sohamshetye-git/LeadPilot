@@ -18,10 +18,10 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS setup
+# CORS setup - supports local dev and custom CORS_ORIGINS from production env
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permits frontend dev & cloud preview origins
+    allow_origins=settings.cors_origins if settings.cors_origins else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -47,4 +47,17 @@ app.include_router(ai_router, prefix=settings.API_V1_STR)
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "app": settings.PROJECT_NAME, "version": "1.0.0"}
+    db_status = "connected"
+    try:
+        from sqlalchemy import text
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+    except Exception:
+        db_status = "unavailable"
+    
+    return {
+        "status": "ok",
+        "app": settings.PROJECT_NAME,
+        "version": "1.0.0",
+        "database": db_status
+    }

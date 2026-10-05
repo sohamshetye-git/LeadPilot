@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.core.config import settings
 
-# Adjust sqlite connect_args if using SQLite
+# Adjust sqlite connect_args or postgres dialect if needed
 connect_args = {}
 database_url = settings.DATABASE_URL
 if database_url.startswith("postgres://"):

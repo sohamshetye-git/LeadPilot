@@ -17,11 +17,12 @@ At conferences and trade shows, revenue teams have dozens of high-value conversa
 
 ---
 
-## 🌐 Live Demo & Repository
+## 🌐 Live Demo
 
-- **Live Application**: [TO BE DEPLOYED - See Deployment section below]
-- **API Documentation**: [TO BE DEPLOYED - Swagger UI `/docs`]
-- **GitHub Repository**: [https://github.com/sohamshetye-git/LeadPilot](https://github.com/sohamshetye-git/LeadPilot)
+- **Frontend**: [To be deployed on Vercel]
+- **Backend API**: [To be deployed on Render]
+- **API Documentation**: [Render URL]/docs
+- **GitHub**: [https://github.com/sohamshetye-git/LeadPilot](https://github.com/sohamshetye-git/LeadPilot)
 
 ---
 
@@ -265,24 +266,42 @@ tests\test_api.py ......                                                 [100%]
 
 ---
 
-## ☁️ Deployment Instructions
+## ☁️ Deployment
 
-### Frontend (Vercel)
-1. Import repository on [Vercel](https://vercel.com/).
-2. Set Root Directory to `frontend`.
-3. Add Environment Variable:
-   - `NEXT_PUBLIC_API_URL` = `https://<your-backend-domain>/api`
-4. Deploy.
+### Frontend
+**Vercel**
 
-### Backend (Render / Cloud Run)
-1. Deploy as a Web Service on [Render](https://render.com/) or Cloud Run.
-2. Root Directory: `backend`
-3. Build Command: `pip install -r requirements.txt && alembic upgrade head`
-4. Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-5. Add Environment Variables:
-   - `DATABASE_URL` = Managed PostgreSQL URL (e.g., from Neon or Supabase)
-   - `GEMINI_API_KEY` = Your Google AI Studio API key
-   - `GEMINI_MODEL` = `gemini-2.5-flash`
+- **Root Directory**: `frontend`
+- **Environment Variable**:
+  ```env
+  NEXT_PUBLIC_API_URL=https://<render-backend-url>
+  ```
+
+### Backend
+**Render**
+
+- **Root Directory**: `backend`
+- **Build Command**:
+  ```bash
+  pip install -r requirements.txt
+  ```
+- **Start Command**:
+  ```bash
+  uvicorn app.main:app --host 0.0.0.0 --port $PORT
+  ```
+- **Required Environment Variables**:
+  - `DATABASE_URL`: Managed PostgreSQL connection string (from Neon)
+  - `GEMINI_API_KEY`: Google AI Studio API key
+  - `GEMINI_MODEL`: `gemini-2.5-flash`
+  - `CORS_ORIGINS`: Your Vercel frontend URL (e.g., `https://leadpilot.vercel.app`)
+
+### Database
+**Neon PostgreSQL**
+
+- **Migration**:
+  ```bash
+  alembic upgrade head
+  ```
 
 ---
 
