@@ -1,193 +1,139 @@
 # LeadPilot
 
-> **Turn event conversations into actionable opportunities.**  
-> An AI-powered event lead management platform built for B2B revenue and engineering teams.
+Turn event conversations into actionable B2B opportunities.
+
+LeadPilot is an AI-assisted event lead management platform built for revenue and engineering teams. It bridges the gap between fast-paced conference interactions and timely pipeline conversion by capturing discussion notes, synthesizing intent signals, suggesting next best actions, and generating personalized follow-up correspondence.
+
+## Live Demo
+
+- **Frontend**: https://leadpilot-agentai.vercel.app
+- **Backend API**: https://leadpilot-fima.onrender.com
+- **Swagger Docs**: https://leadpilot-fima.onrender.com/docs
+- **GitHub**: https://github.com/sohamshetye-git/LeadPilot
 
 ---
 
-## 📌 Problem
+## Problem
 
-At conferences and trade shows, revenue teams have dozens of high-value conversations. In practice, these interactions frequently devolve into scattered notes, forgotten business cards, or generic CRM dumps. Critical context—such as decision-maker timelines, specific pain points, and promised follow-ups—is lost, delaying outreach and hurting conversion rates.
+At conferences and trade shows, revenue teams have dozens of high-value discussions. In practice, these interactions frequently become scattered notes, forgotten business cards, or generic CRM dumps. Critical context—such as decision-maker timelines, specific pain points, and promised follow-ups—is lost, delaying outreach and lowering conversion rates.
 
----
+## Solution
 
-## 💡 Solution
-
-**LeadPilot** bridges the gap between fast-paced event encounters and timely pipeline conversion. It provides structured intake for event interactions, uses Google Gemini AI to analyze conversation context and highlight intent signals, scores leads with transparent reasoning, recommends immediate next best actions, and drafts personalized follow-up correspondence tailored by tone and objective.
-
----
-
-## 🌐 Live Demo
-
-- **Frontend**: [To be deployed on Vercel]
-- **Backend API**: [To be deployed on Render]
-- **API Documentation**: [Render URL]/docs
-- **GitHub**: [https://github.com/sohamshetye-git/LeadPilot](https://github.com/sohamshetye-git/LeadPilot)
+LeadPilot captures event conversations into structured lead records and provides AI-driven intelligence:
+- **Intake & Qualification**: Captures structured lead information and detects duplicate prospects.
+- **Context Synthesis**: Summarizes conversational notes into key interests, pain points, and buying signals.
+- **Prioritization**: Generates AI-assisted lead scoring with decision-maker rationale.
+- **Actionable Execution**: Recommends highest-leverage next actions and drafts personalized follow-up emails.
 
 ---
 
-## 📸 Product Screenshots
+## Key Features
 
-Screenshots illustrating key workflows can be added to [`docs/screenshots/`](docs/screenshots/):
-
-- `docs/screenshots/dashboard.png` — Executive pipeline overview with KPI cards and upcoming follow-ups.
-- `docs/screenshots/leads.png` — Lead directory with instant search, multi-filter toolbar, and duplicate warning modal.
-- `docs/screenshots/lead-intelligence.png` — Lead detail view featuring AI Summary, Intent Score breakdown, and Pre-Contact Brief.
-- `docs/screenshots/follow-up.png` — Context-aware follow-up email composer with tone and purpose controls.
-- `docs/screenshots/analytics.png` — Event performance metrics and conversion quality comparison.
-
----
-
-## ✨ Key Features
-
-- **Lead Lifecycle Management**: Full CRUD operations with detailed fields (name, company, email, job title, phone, LinkedIn, event, priority, lead score, notes, and follow-up timeline).
-- **Proactive Duplicate Detection**: Evaluates incoming records for duplicate emails or matching Name + Company combinations prior to saving.
-- **Search & Multi-Filter Toolbar**: Debounced search across leads with combinable filters for event, status, priority, and due timeframe (Today, Overdue, Upcoming).
-- **Event Organization**: Multi-event tracking with location and date mapping.
-- **Interaction Audit History**: Chronological log of conversations, updates, and touchpoints for each prospect.
-- **AI Conversation Summarization**: Synthesizes notes into key interests, pain points, buying signals, and recommended next steps.
-- **AI Lead Scoring & Prioritization**: 0–100 score calculation and High/Medium/Low priority mapping accompanied by decision-maker rationale.
-- **Next Best Action Engine**: Recommends the single highest-leverage immediate step and timing to advance the opportunity.
-- **30-Second Pre-Contact Brief**: Generates concise executive briefs to prep sales reps in under a minute before a call.
-- **Personalized Follow-Up Generator**: Drafts context-aware emails with selectable tone (Professional, Friendly, Concise) and purpose (Demo, Pricing, Info, Reconnect).
-- **Structured Lead Intake Extraction**: Extracts lead attributes from unstructured conversational notes or transcripts into editable fields for human review.
-- **Event Performance Analytics**: Aggregates total captured leads, qualified opportunities (score ≥ 70), high-priority leads, and outreach completion across conferences.
+- **Lead Lifecycle Management**: Full CRUD operations with detailed fields (name, company, email, job title, phone, LinkedIn, event, priority, score, notes, and follow-up timeline).
+- **Proactive Duplicate Detection**: Checks for existing emails or matching Name + Company combinations prior to saving.
+- **Search & Multi-Filter Toolbar**: Debounced search across leads with filters for event, status, priority, and due timeframe (Today, Overdue, Upcoming).
+- **Interaction History**: Chronological audit log of conversations, notes, and updates for each prospect.
+- **Follow-up Tracking**: Scheduled outreach tasks with status management (Pending, Contacted, Scheduled, Completed).
+- **AI Note Summarization**: Synthesizes notes into key interests, pain points, buying signals, and recommended next steps.
+- **AI Lead Scoring**: Transparent 0–100 score and High/Medium/Low priority based on authority, urgency, and budget signals.
+- **Next Best Action**: Recommends the single highest-leverage immediate step and timing window.
+- **Pre-Contact Brief**: 30-second executive talking points to prepare sales reps before follow-up calls.
+- **Follow-up Email Generation**: Context-aware email drafts with tone (Professional, Friendly, Concise) and purpose (Demo, Pricing, Info, Reconnect) controls.
+- **Structured Lead Intake Extraction**: Extracts lead fields from raw conversation notes into editable inputs for human review.
+- **Event Performance Analytics**: Tracks total leads, qualified prospects, high-priority accounts, and outreach completion per event.
 
 ---
 
-## 🛠️ Tech Stack
+## AI Integration
 
-- **Frontend**: Next.js 16 (App Router), TypeScript, Tailwind CSS, Lucide Icons.
-- **Backend**: Python 3.12+, FastAPI, Pydantic v2, SQLAlchemy 2.0, Alembic, Uvicorn.
-- **Database**: PostgreSQL (Production) / SQLite (Zero-config local development).
-- **AI Engine**: Google Gemini API (`gemini-2.5-flash` via official `google-genai` SDK) with deterministic heuristic fallbacks.
-- **Testing**: Pytest with in-memory SQLite and mock AI coverage.
-- **Deployment Targets**: Vercel (Frontend), Render / Google Cloud Run (Backend), Neon / Supabase (PostgreSQL).
+LeadPilot uses Google Gemini (`gemini-2.5-flash`) via the official `google-genai` SDK:
+- **Backend-Only AI Gateway**: Direct calls to Gemini exist strictly in `AIService` and `GeminiClient`. API keys never reach the client browser.
+- **Structured JSON Validation**: Responses enforce JSON schemas (`response_mime_type="application/json"`), stripped of markdown fences, and validated with Pydantic.
+- **Human-in-the-Loop Review**: AI extractions populate editable form fields—no untrusted AI output is written directly to the database without user confirmation.
+- **Decision-Support Framing**: Lead scores and recommendations serve as prioritized signals rather than objective truth.
+- **Deterministic Heuristic Fallbacks**: If the Gemini API is unconfigured or rate-limited, the application falls back to rule-based heuristics and templates so user workflows remain uninterrupted.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```text
 Next.js (App Router + Tailwind CSS)
-            │
-            ▼ (REST / JSON)
-FastAPI Modular Monolith
-    ├── API Routers (/leads, /events, /follow-ups, /dashboard, /ai)
-    ├── Services & Repositories
-    │       ├── LeadRepository / EventRepository / FollowUpRepository
-    │       └── AnalyticsService
-    │               │
-    │               ▼
-    │         Database Layer (SQLAlchemy 2.0 -> PostgreSQL / SQLite)
-    │
-    └── AIService Layer (Isolated Provider Abstraction)
-            │
-            ▼ (Structured JSON Requests)
-      Gemini Client (google-genai SDK)
-            │
-            ▼
-      Validation & Fallback Engine
+            |
+        REST / JSON
+            |
+FastAPI (Modular Monolith)
+    |-- API Routers (/leads, /events, /follow-ups, /dashboard, /ai)
+    |-- Repositories & Services (LeadRepository, AnalyticsService)
+    |       |
+    |       +--> PostgreSQL (Neon) / SQLite (Local) via SQLAlchemy 2.0
+    |
+    +-- AIService Layer (Provider Abstraction)
+            |
+            +--> Google Gemini 2.5 Flash
 ```
 
-### AI Isolation & Safety Principle
-All AI logic is strictly quarantined on the backend inside `AIService` and `GeminiClient`. The frontend has zero knowledge of API keys and never calls Gemini directly. Responses are requested in structured JSON format, validated against Pydantic schemas, and presented in the UI for **human review prior to saving**. If the AI provider is offline or unconfigured, the application falls back gracefully to deterministic rule-based heuristics without interrupting user workflows.
-
 ---
 
-## 🗄️ Database Design
+## Database Design
 
-The data model uses 5 core relational entities managed via SQLAlchemy 2.0 and Alembic:
-
-- **`Event`**: Represents a conference or trade show (`name`, `location`, `date`, `description`).
-- **`Lead`**: The core prospect record linked to an `Event` (`name`, `company`, `email`, `job_title`, `phone`, `linkedin_url`, `notes`, `priority`, `lead_score`, `follow_up_status`, `next_follow_up_date`).
+Managed with SQLAlchemy 2.0 and Alembic migrations:
+- **`Event`**: Conference details (`name`, `location`, `date`, `description`).
+- **`Lead`**: Core prospect record linked to an `Event` (`name`, `company`, `email`, `job_title`, `phone`, `linkedin_url`, `notes`, `priority`, `lead_score`, `follow_up_status`, `next_follow_up_date`).
 - **`Interaction`**: Chronological log items belonging to a `Lead` (`type`, `summary`, `details`, `created_at`).
 - **`FollowUp`**: Actionable tasks tied to a `Lead` (`due_date`, `status`, `action_type`, `notes`, `generated_subject`, `generated_body`, `completed_at`).
-- **`AIInsight`**: Audit history of AI evaluations for a `Lead` (`insight_type`, `content`, `created_at`).
+- **`AIInsight`**: History of AI evaluations for a `Lead` (`insight_type`, `content`, `created_at`).
 
 ---
 
-## 🔌 API Overview
+## Tech Stack
 
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/leads` | List leads with debounced search, filtering, and pagination |
-| `POST` | `/api/leads` | Create a new lead |
-| `GET` | `/api/leads/{id}` | Retrieve lead details with interactions and follow-ups |
-| `PATCH` | `/api/leads/{id}` | Update lead fields, score, priority, or status |
-| `DELETE` | `/api/leads/{id}` | Remove a lead and cascade related records |
-| `POST` | `/api/leads/check-duplicate` | Check for existing email or Name + Company matches |
-| `GET` | `/api/events` | List all tracked events with lead counts |
-| `POST` | `/api/events` | Create a new event |
-| `GET` | `/api/follow-ups` | List upcoming, overdue, or completed follow-up items |
-| `PATCH` | `/api/follow-ups/{id}` | Update follow-up task status or completion timestamp |
-| `GET` | `/api/dashboard/stats` | Pipeline KPI metrics, attention leads, and event performance |
-| `POST` | `/api/ai/summarize` | AI conversation notes synthesis |
-| `POST` | `/api/ai/follow-up` | Generate personalized email draft with custom tone & purpose |
-| `POST` | `/api/ai/score` | AI decision-maker intent scoring (0–100) and rationale |
-| `POST` | `/api/ai/extract` | Extract structured lead fields from raw conversation notes |
-| `POST` | `/api/ai/next-action` | Recommend highest-leverage next step |
-| `POST` | `/api/ai/brief` | 30-second executive pre-contact preparation briefing |
-| `GET` | `/health` | Service health check |
+- **Frontend**: Next.js 16 (App Router), TypeScript, Tailwind CSS, Lucide Icons.
+- **Backend**: FastAPI, Python 3.12, Pydantic v2, SQLAlchemy 2.0, Alembic, Uvicorn.
+- **Database**: Neon PostgreSQL (Production) / SQLite (Local zero-config development).
+- **AI**: Google Gemini 2.5 Flash (`google-genai` SDK).
+- **Testing**: Pytest with in-memory SQLite and mock AI coverage.
+- **Deployment**: Vercel (Frontend) + Render (Backend) + Neon (PostgreSQL).
 
 ---
 
-## 🤖 AI Integration & Reliability
+## Key Technical Decisions
 
-- **Centralized Prompts**: All prompts are isolated in [`backend/app/services/ai/prompts.py`](backend/app/services/ai/prompts.py) with explicit boundary instructions instructing the model to rely strictly on provided text.
-- **Structured JSON Validation**: Clean parsing of responses using `client.models.generate_content` with `response_mime_type="application/json"` and markdown code fence cleaning.
-- **Decision Support, Not Ground Truth**: AI scoring is presented as an AI-assisted prioritization signal, not an absolute truth.
-- **Zero Silent DB Mutation**: AI extraction populates editable form inputs so users verify contact details before writing to the database.
-- **Offline & Rate-Limit Resilience**: Deterministic heuristic fallbacks provide standard templates and regex extractions if the Gemini API is unreachable.
-
----
-
-## 🏛️ Key Technical Decisions
-
-1. **FastAPI for High-Performance Typed API**: Pydantic v2 validation ensures strict request/response contracts and auto-generates interactive OpenAPI documentation.
-2. **Relational Database Design over NoSQL**: Lead statuses, follow-up dates, and event associations have clear relational constraints; PostgreSQL provides transactional integrity and ACID compliance.
-3. **Clean Repository & Service Separation**: Route handlers remain thin, delegating database operations to repositories and business logic to services.
-4. **Backend-Only AI Gateway**: Protects credentials and centralizes prompt engineering, rate-limiting, and error handling away from the client browser.
-5. **Next.js 16 App Router & Tailwind CSS**: Provides fast component rendering, strict TypeScript safety, and a responsive, restrained B2B user experience.
-6. **Dual Database Support**: Seamlessly defaults to local SQLite for zero-config evaluation, with production PostgreSQL switching via `DATABASE_URL`.
+1. **FastAPI + Pydantic v2**: Provides strict typed request/response contracts, validation, and auto-generated OpenAPI documentation.
+2. **PostgreSQL Relational Schema**: Enforces relational data integrity across events, leads, and follow-up tasks.
+3. **Repository & Service Layer Separation**: Keeps API route handlers thin, isolating business logic and database queries for testability.
+4. **Backend-Only AI Gateway**: Protects credentials and centralizes prompt engineering, schema validation, and fallback logic.
+5. **Modular Monolith**: Avoids distributed tracing overhead and microservice network complexity while keeping deployment simple.
 
 ---
 
-## ⚖️ Trade-offs & Deliberate Exclusions
+## Trade-offs
 
-- **PostgreSQL instead of Document/NoSQL**: Chosen because event-lead-interaction relationships are structured and benefit from relational integrity.
-- **Modular Monolith instead of Microservices**: Avoids unnecessary network overhead, distributed tracing complexity, and operational burdens for a focused B2B solution.
-- **Direct Gemini API over Self-Hosted LLMs**: Maximizes response quality and context handling while keeping operational complexity and cloud hosting costs low.
-- **No Heavy Vector Database**: In-memory relational queries and indexed filters deliver sub-10ms response times for thousands of leads without vector database upkeep.
-- **Copy-to-Clipboard Email instead of Direct SMTP Sending**: Prevents accidental spam during testing and lets sales reps review emails in their native email clients.
+- **PostgreSQL over NoSQL**: Relational constraints and foreign keys ensure consistent lead and event associations, which outweighs document schema flexibility.
+- **Modular Monolith over Microservices**: Single deployable service minimizes operational overhead and network latency.
+- **Gemini API over Self-Hosted LLMs**: Reduces cloud hosting costs and infrastructure complexity while providing strong reasoning quality.
+- **Copy-to-Clipboard Email over Automated SMTP**: Prevents accidental spam during testing and lets representatives review emails in their native clients.
 
 ---
 
-## 🚀 Local Setup & Installation
+## Local Setup
 
-### 1. Prerequisites
-- **Node.js**: v18.0.0+
-- **Python**: 3.12+ (tested on Python 3.12.4)
-- **Git**
+### 1. Backend
 
-### 2. Backend Setup
-In a terminal:
-
-```powershell
+```bash
 cd backend
 
-# Create virtual environment
+# Create and activate virtual environment
 python -m venv venv
-
-# Activate virtual environment (Windows PowerShell)
+# Windows PowerShell:
 .\venv\Scripts\activate
-# (macOS/Linux: source venv/bin/activate)
+# Linux/macOS:
+# source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Configure environment variables
-# Copy .env.example to .env and add your Gemini API key:
+# Configure environment
 cp .env.example .env
 
 # Run database migrations
@@ -196,7 +142,7 @@ alembic upgrade head
 # Seed realistic demo data
 python -m app.db.seed
 
-# Run backend tests
+# Run tests
 python -m pytest
 
 # Start FastAPI backend
@@ -204,12 +150,11 @@ python -m uvicorn app.main:app --port 8000 --reload
 ```
 
 - API Base: `http://127.0.0.1:8000`
-- Interactive API Docs: `http://127.0.0.1:8000/docs`
+- Swagger Docs: `http://127.0.0.1:8000/docs`
 
-### 3. Frontend Setup
-In a second terminal:
+### 2. Frontend
 
-```powershell
+```bash
 cd frontend
 
 # Install dependencies
@@ -226,84 +171,54 @@ npm run dev
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 ### Backend (`backend/.env`)
-Documented in [`backend/.env.example`](backend/.env.example):
-
+Documented in `backend/.env.example`:
 ```env
-# Database connection string (defaults to local SQLite; use postgresql://... for PostgreSQL)
 DATABASE_URL=sqlite:///./event_leads.db
-
-# Google Gemini API key from https://aistudio.google.com/
 GEMINI_API_KEY=your_gemini_api_key_here
-
-# Model identifier
 GEMINI_MODEL=gemini-2.5-flash
+CORS_ORIGINS=http://localhost:3000
 ```
 
 ### Frontend (`frontend/.env.local`)
+`NEXT_PUBLIC_API_URL` is browser-facing and contains no secret:
 ```env
+# Local:
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
+
+# Production:
+NEXT_PUBLIC_API_URL=https://leadpilot-fima.onrender.com/api
 ```
 
 ---
 
-## 🧪 Testing Results
+## Testing
 
-Unit and integration tests verify health endpoints, lead CRUD, duplicate detection, search filtering, and AI fallback resilience:
-
-```powershell
+```bash
 cd backend
 python -m pytest
 ```
 
-**Test Output:**
-```text
-tests\test_api.py ......                                                 [100%]
-======================== 6 passed in 1.42s ========================
-```
+Verified test suite:
+- **6 passed**
+- Coverage includes: `/health` endpoint, lead CRUD, duplicate detection, search/filtering, and deterministic AI fallback logic. External AI calls are mocked for fast and reliable execution.
 
 ---
 
-## ☁️ Deployment
+## Deployment
 
-### Frontend
-**Vercel**
-
+### Frontend (Vercel)
 - **Root Directory**: `frontend`
-- **Environment Variable**:
-  ```env
-  NEXT_PUBLIC_API_URL=https://<render-backend-url>
-  ```
+- **Environment Variable**: `NEXT_PUBLIC_API_URL=https://leadpilot-fima.onrender.com/api`
 
-### Backend
-**Render**
-
+### Backend (Render)
 - **Root Directory**: `backend`
-- **Build Command**:
-  ```bash
-  pip install -r requirements.txt
-  ```
-- **Start Command**:
-  ```bash
-  uvicorn app.main:app --host 0.0.0.0 --port $PORT
-  ```
-- **Required Environment Variables**:
-  - `DATABASE_URL`: Managed PostgreSQL connection string (from Neon)
-  - `GEMINI_API_KEY`: Google AI Studio API key
-  - `GEMINI_MODEL`: `gemini-2.5-flash`
-  - `CORS_ORIGINS`: Your Vercel frontend URL (e.g., `https://leadpilot.vercel.app`)
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- **Environment Variables**: `DATABASE_URL`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `CORS_ORIGINS`
 
-### Database
-**Neon PostgreSQL**
-
-- **Migration**:
-  ```bash
-  alembic upgrade head
-  ```
-
----
-
-## 📄 License
-MIT
+### Database (Neon)
+- **Type**: Managed PostgreSQL
+- **Migration**: `alembic upgrade head`
