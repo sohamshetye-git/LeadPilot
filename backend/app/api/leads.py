@@ -27,7 +27,7 @@ def get_leads(
     follow_up_status: Optional[str] = Query(None),
     priority: Optional[str] = Query(None),
     min_score: Optional[int] = Query(None, ge=0, le=100),
-    follow_up_due: Optional[str] = Query(None, regex="^(today|overdue|upcoming)$"),
+    follow_up_due: Optional[str] = Query(None, pattern="^(today|overdue|upcoming)$"),
     page: int = Query(1, ge=1),
     page_size: int = Query(50, ge=1, le=100),
     db: Session = Depends(get_db)

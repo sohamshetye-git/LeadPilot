@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
@@ -28,8 +28,7 @@ class EventResponse(EventBase):
     updated_at: datetime
     lead_count: Optional[int] = 0
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # --- Interaction Schemas ---
@@ -48,8 +47,7 @@ class InteractionResponse(InteractionBase):
     lead_id: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # --- FollowUp Schemas ---
@@ -85,8 +83,7 @@ class FollowUpResponse(FollowUpBase):
     lead_name: Optional[str] = None
     lead_company: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # --- AI Insight Schemas ---
@@ -97,8 +94,7 @@ class AIInsightResponse(BaseModel):
     content: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # --- Lead Schemas ---
@@ -148,8 +144,7 @@ class LeadResponse(LeadBase):
     follow_ups: List[FollowUpResponse] = []
     ai_insights: List[AIInsightResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class LeadListResponse(BaseModel):

@@ -29,9 +29,9 @@ export function Navbar() {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-900 text-white dark:bg-white dark:text-zinc-900">
               <Layers className="h-4 w-4" />
             </div>
-            <span className="text-sm font-semibold tracking-tight">EventLead AI</span>
+            <span className="text-sm font-semibold tracking-tight">LeadPilot</span>
             <span className="rounded bg-zinc-100 px-1.5 py-0.5 text-[10px] font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-              B2B
+              AI
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-1">

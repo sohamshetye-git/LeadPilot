@@ -1,4 +1,4 @@
-# EventLead AI
+# LeadPilot
 
 > **Turn event conversations into actionable opportunities.**  
 > An AI-powered event lead management platform built for B2B revenue and engineering teams.
@@ -7,7 +7,7 @@
 
 ## 📌 Overview
 
-**EventLead AI** bridges the gap between busy conference encounters and timely pipeline conversion. Instead of letting booth interactions disappear into spreadsheets or generic CRM dumps, EventLead AI captures the nuances of every discussion, provides AI-driven qualification signals, suggests immediate next actions, drafts personalized follow-up correspondence, and surfaces event-level ROI metrics.
+**LeadPilot** bridges the gap between busy conference encounters and timely pipeline conversion. Instead of letting booth interactions disappear into spreadsheets or generic CRM dumps, LeadPilot captures the nuances of every discussion, provides AI-driven qualification signals, suggests immediate next actions, drafts personalized follow-up correspondence, and surfaces event-level ROI metrics.
 
 ---
 

@@ -102,7 +102,11 @@ def test_update_and_delete_lead():
     assert verify_res.status_code == 404
 
 
-def test_ai_fallback_services_without_api_key():
+def test_ai_fallback_services_without_api_key(monkeypatch):
+    from app.services.ai.client import gemini_client
+    # Explicitly mock gemini_client.generate_json to return None to test heuristic fallbacks
+    monkeypatch.setattr(gemini_client, "generate_json", lambda prompt: None)
+
     notes = "Met Rajesh at DevCon. He leads a team of 20 and requested pricing by next Friday."
     summary = AIService.summarize(notes, lead_name="Rajesh", company="TechCorp")
     assert summary.summary is not None
@@ -115,3 +119,11 @@ def test_ai_fallback_services_without_api_key():
     score_result = AIService.score_lead(notes=notes, lead_name="Rajesh", company="TechCorp")
     assert 0 <= score_result.score <= 100
     assert score_result.priority in ["High", "Medium", "Low"]
+
+
+def test_search_and_filters():
+    # Verify search query filtering works
+    res_search = client.get("/api/leads?search=Cyberdyne")
+    assert res_search.status_code == 200
+    items = res_search.json()["items"]
+    assert any("Cyberdyne" in item["company"] for item in items)

@@ -6,8 +6,8 @@ import { Navbar } from "@/components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "EventLead AI - Turn Event Conversations into Opportunities",
-  description: "AI-powered B2B event lead management platform for high-velocity teams.",
+  title: "LeadPilot - AI-Powered Event Lead Management",
+  description: "Capture, prioritize, and accelerate follow-ups for B2B event leads with Google Gemini AI.",
 };
 
 export default function RootLayout({
